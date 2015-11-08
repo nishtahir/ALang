@@ -4,7 +4,7 @@ package com.nishtahir.value;
  *
  * @param <T>
  */
-public abstract class Value<T> {
+public abstract class Value<T> implements Comparable<Value<T>>{
     protected T value;
 
     /**
@@ -13,9 +13,9 @@ public abstract class Value<T> {
      */
     public abstract T getValue();
 
-
     @Override
     public String toString() {
         return value != null ? value.toString() : "nil";
     }
+
 }

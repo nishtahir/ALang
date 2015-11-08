@@ -12,11 +12,10 @@ public class ValueEvaluator {
     /**
      * @param lhs
      * @param rhs
-     * @param op
+     * @param operation
      * @return
      */
-    public static Value evaluate(Value lhs, Value rhs, String op) {
-        Operation operation = Operation.getValue(op);
+    public static Value evaluate(Value lhs, Value rhs, Operation operation) {
         if (operation == null) {
             return null;
         }

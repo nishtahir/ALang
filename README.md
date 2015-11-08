@@ -1,3 +1,3 @@
 #ALang
 
-Tiny interpreted language writen in ANTLR 4rm
+Tiny interpreted language written Java and ANTLR 4

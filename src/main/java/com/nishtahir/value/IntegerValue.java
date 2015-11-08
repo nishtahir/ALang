@@ -29,4 +29,9 @@ public class IntegerValue extends Value<Integer> {
         this.value = value;
     }
 
+    @Override
+    public int compareTo(Value<Integer> o) {
+        int result = this.value.compareTo(o.value);
+        return result;
+    }
 }

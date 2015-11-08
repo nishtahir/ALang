@@ -1,13 +1,5 @@
 grammar ALang;
 
-@header {
-    import com.nishtahir.evaluator.ValueEvaluator;
-    import com.nishtahir.value.IntegerValue;
-    import com.nishtahir.value.StringValue;
-    import com.nishtahir.value.Value;
-    import com.nishtahir.utils.*;
-}
-
 compilationUnit
     :   statements EOF
     ;
@@ -32,35 +24,49 @@ assignment
     :   Identifier ':=' expression
     ;
 
+// for (i := 1 ~ 10)
 forLoop
     : 'for' '('Identifier ':=' range ')' statements
     ;
 
 range
-    :   expression '~' expression
+    :   expression RNG expression
     ;
 
 printStatement
-    :   'print' '(' parameter ')'
-    |   'println' '(' parameter ')'
+    :   'print' '(' parameter ')'       #print
+    |   'println' '(' parameter ')'     #printLine
     ;
 
-parameter returns [String value]
-    : literal           {$value = $literal.value.toString();}
-    | expression        {$value = $expression.value.toString();}
-    | Identifier        {$value = null; }
+parameter
+    : literal
+    | expression
+    | Identifier
     ;
 
-expression returns [Value value]
-//    :   expression ('++' | '--')
-    :   expression ('*'|'/') expression
-    |   a=expression c=('+'|'-') b=expression     { $value = ValueEvaluator.evaluate($a.value, $b.value, $c.text.trim());}
-    |   expression ('<=' | '>=' | '>' | '<' | '=') expression
-    |   '(' expression ')'
-    |   expressionList
-    |   index
-    |   literal                 { $value = $literal.value; }
+expression
+    :   expression op=(INCR|DECR)            #exprIncrDecr
+    |   expression op=(MULT|DIV) expression    #exprMultDiv
+    |   expression op=(ADD|SUB) expression     #exprAddSub
+    |   expression op=('>' | '<' | '=') expression     #exprBoolean
+    |   '(' expression ')'                  #exprBracket
+    |   expressionList                      #exprList
+    |   index                               #exprIndex
+    |   literal                             #literalExpression
     ;
+
+INCR    :   '++';
+DECR    :   '--';
+MULT    :   '*';
+DIV     :   '/';
+ADD     :   '+';
+SUB     :   '-';
+
+GTR     :   '>';
+LESS    :   '<';
+EQL     :   '=';
+
+RNG     :   '~';
 
 expressionList
     :   '[' expression (',' expression)* ']'
@@ -70,9 +76,10 @@ index
     :   Identifier '^' expression
     ;
 
-literal returns [Value value]
-    :   NUMBERS                             { $value = new IntegerValue($NUMBERS.text.trim()); }
-    |   StringLiteral                       { $value = new StringValue(StringUtilities.clean($StringLiteral.text)); }
+literal
+    :   NUMBERS                     #literalNumber
+    |   StringLiteral               #literalString
+    |   Identifier                  #literalIdentifier
     ;
 
 Identifier

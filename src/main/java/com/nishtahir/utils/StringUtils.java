@@ -3,7 +3,7 @@ package com.nishtahir.utils;
 /**
  * Created by Nish on 11/7/15.
  */
-public class StringUtilities {
+public class StringUtils {
 
     /**
      * Trim and remove trailing quotes
