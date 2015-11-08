@@ -2,6 +2,34 @@
 
 Tiny interpreted language written Java and ANTLR 4
 
+##Features
+```
+    #Alang is a dynamically typed language
+    
+    #Just give a name and a value and you are
+    #ready to go.
+    hello := "world"
+    
+    #Alang supports integers and strings
+    y := 42
+    
+    #how to output things to console
+    println("Quick and easy")
+    
+    #We have for loops with ranges
+    # 1 .. 10 means from 1 to 10
+    for(i := 0 .. 10) {
+        println(i)
+    }
+    
+    #Lists are made this way
+    x := [3, 9, 4, 6, 5, 1, 6, 7, 8, 10, 2]
+    
+    #Lists are also dynamically typed
+    #so you can have things like this
+    
+    x := ["Hello", 10]
+```
 
 # LICENSE
 Copyright 2015 Nish Tahir
