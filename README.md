@@ -17,8 +17,8 @@ y := 42
 println("Quick and easy")
     
 # We have for loops with ranges
-# 1 .. 10 means from 1 to 10
-for(i := 0 .. 10) {
+# 1 ~ 10 means from 1 to 10
+for(i := 0 ~ 10) {
     println(i)
 }
     
