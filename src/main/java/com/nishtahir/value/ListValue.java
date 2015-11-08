@@ -28,6 +28,13 @@ public class ListValue extends Value<List<Value>> {
         return 0;
     }
 
+    public Value getAtIndex(IntegerValue index){
+        return this.value.get(index.getValue() - 1);
+    }
+    public Value setAtIndex(IntegerValue index, Value value){
+        return this.value.set(index.getValue() - 1, value);
+    }
+
     @Override
     public String toString() {
         return Arrays.toString(value.toArray());

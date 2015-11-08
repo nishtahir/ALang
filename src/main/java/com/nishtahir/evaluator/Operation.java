@@ -161,7 +161,8 @@ public enum Operation {
             } else {
                 value.setValue(false);
             }
-            return value;        }
+            return value;
+        }
 
         @Override
         public Value evaluate(IntegerValue lhs, StringValue rhs) {

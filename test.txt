@@ -1,19 +1,17 @@
-x := 10
+x := [3, 9, 4, 6, 5]
+print("problem: ")
+println(x)
 
-for(i := x ~ 1){
-    println(i)
+for(i := 1 ~ 100){
+    for(j := 1 ~ 4){
+        index := x^j
+        next := x^1+j
+        if index < next {
+            x^j := next
+            x^1+j := index
+        } else {
+        }
+    }
 }
-
-if x = 10 {
-    println("x is 10")
-} else {
-    print("x is not 10")
-}
-
-y := [2, 4, "Hello", 8]
-
-println(y)
-
-y^1 := 10
-
-println(y)
+print("result: ")
+println(x)

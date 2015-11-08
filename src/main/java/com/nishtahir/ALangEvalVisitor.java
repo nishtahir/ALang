@@ -37,9 +37,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
 
         ListValue value =  ValueUtils.asListValue(tokenValueMap.get(identifier));
         Value expression = this.visit(ctx.expression());
-        value.getValue().set(indexNo.getValue(), expression);
-
-        return value.getValue().set(indexNo.getValue(), expression);
+        return value.setAtIndex(indexNo, expression);
     }
 
     @Override
@@ -137,8 +135,8 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
             this.visit(ctx.statements());
         }
 
-        tokenValueMap.remove(identifier);
-        return null;
+
+        return tokenValueMap.remove(identifier);
     }
 
     @Override
@@ -148,8 +146,10 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         if (condition.getValue()) {
             return this.visitStatements(ctx.statements(0));
         } else {
+            if(ctx.statements(1) != null)
             return this.visitStatements(ctx.statements(1));
         }
+        return super.visitIfStatement(ctx);
     }
 
     @Override
@@ -171,10 +171,9 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
     @Override
     public Value visitIndex(ALangParser.IndexContext ctx) {
         String identifier = ctx.Identifier().getText();
-
         ListValue value = ValueUtils.asListValue(tokenValueMap.get(identifier));
         IntegerValue index = ValueUtils.asIntegerValue(this.visit(ctx.expression()));
 
-        return value.getValue().get(index.getValue());
+        return value.getAtIndex(index);
     }
 }
