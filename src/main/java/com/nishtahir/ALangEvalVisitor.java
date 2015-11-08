@@ -5,6 +5,7 @@ import com.nishtahir.evaluator.ValueEvaluator;
 import com.nishtahir.exception.UnknownOperationException;
 import com.nishtahir.utils.StringUtils;
 import com.nishtahir.utils.ValueUtils;
+import com.nishtahir.value.BooleanValue;
 import com.nishtahir.value.IntegerValue;
 import com.nishtahir.value.StringValue;
 import com.nishtahir.value.Value;
@@ -60,6 +61,10 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
                 return ValueEvaluator.evaluate(lhs, rhs, Operation.Less);
             case ALangParser.EQL:
                 return ValueEvaluator.evaluate(lhs, rhs, Operation.Equal);
+            case ALangParser.NEQL:
+                BooleanValue value = (BooleanValue) ValueEvaluator.evaluate(lhs, rhs, Operation.Equal);
+                value.setValue(!value.getValue());
+                return value;
             default:
                 throw new UnknownOperationException("unknown operator: " + ALangParser.tokenNames[ctx.op.getType()]);
         }
@@ -105,18 +110,19 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         IntegerValue lhs = ValueUtils.checkAsInt(this.visit(rangeCtx.expression(0)));
         IntegerValue rhs = ValueUtils.checkAsInt(this.visit(rangeCtx.expression(1)));
 
-        tokenValueMap.put(identifier, lhs);
+        IntegerValue loopCounter = new IntegerValue(lhs.getValue());
+        tokenValueMap.put(identifier, loopCounter);
 
         if (lhs.compareTo(rhs) < 0) {
             for (int i = lhs.getValue(); i <= rhs.getValue(); i++){
-                lhs.setValue(i);
-                tokenValueMap.put(identifier, lhs);
+                loopCounter.setValue(i);
+                tokenValueMap.put(identifier, loopCounter);
                 this.visit(ctx.statements());
             }
         } else if (lhs.compareTo(rhs) > 0) {
             for (int i = lhs.getValue(); i >= rhs.getValue(); i--) {
-                lhs.setValue(i);
-                tokenValueMap.put(identifier, lhs);
+                loopCounter.setValue(i);
+                tokenValueMap.put(identifier, loopCounter);
                 this.visit(ctx.statements());
             }
         } else {
@@ -125,6 +131,17 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
 
         tokenValueMap.remove(identifier);
         return null;
+    }
+
+    @Override
+    public Value visitIfStatement(ALangParser.IfStatementContext ctx) {
+
+        BooleanValue condition = (BooleanValue) this.visit(ctx.expression());
+        if(condition.getValue()){
+            return this.visitStatements(ctx.statements(0));
+        } else {
+            return this.visitStatements(ctx.statements(1));
+        }
     }
 
     @Override

@@ -29,6 +29,7 @@ forLoop
     : 'for' '('Identifier ':=' range ')' statements
     ;
 
+
 range
     :   expression RNG expression
     ;
@@ -57,16 +58,17 @@ expression
 
 INCR    :   '++';
 DECR    :   '--';
-MULT    :   '*';
-DIV     :   '/';
-ADD     :   '+';
-SUB     :   '-';
+MULT    :   '*' ;
+DIV     :   '/' ;
+ADD     :   '+' ;
+SUB     :   '-' ;
 
-GTR     :   '>';
-LESS    :   '<';
-EQL     :   '=';
+GTR     :   '>' ;
+LESS    :   '<' ;
+EQL     :   '=' ;
+NEQL    :   '!=';
 
-RNG     :   '~';
+RNG     :   '~' ;
 
 expressionList
     :   '[' expression (',' expression)* ']'
