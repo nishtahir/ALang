@@ -5,8 +5,15 @@ for(i := x ~ 1){
 }
 
 if x = 10 {
-    println(x)
+    println("x is 10")
+} else {
+    print("x is not 10")
 }
-else {
-    print("doesn't work")
-}
+
+y := [2, 4, "Hello", 8]
+
+println(y)
+
+y^1 := 10
+
+println(y)

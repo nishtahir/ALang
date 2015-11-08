@@ -21,7 +21,8 @@ ifStatement
     ;
 
 assignment
-    :   Identifier ':=' expression
+    :   Identifier ':=' expression      #identifierAssignment
+    |   index      ':=' expression      #indexAssignment
     ;
 
 // for (i := 1 ~ 10)
@@ -54,6 +55,7 @@ expression
     |   expressionList                      #exprList
     |   index                               #exprIndex
     |   literal                             #literalExpression
+    |   Identifier                          #identifierExpression
     ;
 
 INCR    :   '++';

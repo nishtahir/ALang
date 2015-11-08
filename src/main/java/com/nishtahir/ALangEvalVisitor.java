@@ -5,10 +5,7 @@ import com.nishtahir.evaluator.ValueEvaluator;
 import com.nishtahir.exception.UnknownOperationException;
 import com.nishtahir.utils.StringUtils;
 import com.nishtahir.utils.ValueUtils;
-import com.nishtahir.value.BooleanValue;
-import com.nishtahir.value.IntegerValue;
-import com.nishtahir.value.StringValue;
-import com.nishtahir.value.Value;
+import com.nishtahir.value.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,12 +23,23 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
      */
     private static Map<String, Value> tokenValueMap = new HashMap<>();
 
-
     @Override
-    public Value visitAssignment(ALangParser.AssignmentContext ctx) {
+    public Value visitIdentifierAssignment(ALangParser.IdentifierAssignmentContext ctx) {
         String id = ctx.Identifier().getText();
         Value value = this.visit(ctx.expression());
         return tokenValueMap.put(id, value);
+    }
+
+    @Override
+    public Value visitIndexAssignment(ALangParser.IndexAssignmentContext ctx) {
+        String identifier = ctx.index().Identifier().getText();
+        IntegerValue indexNo = ValueUtils.asIntegerValue(this.visit(ctx.index().expression()));
+
+        ListValue value =  ValueUtils.asListValue(tokenValueMap.get(identifier));
+        Value expression = this.visit(ctx.expression());
+        value.getValue().set(indexNo.getValue(), expression);
+
+        return value.getValue().set(indexNo.getValue(), expression);
     }
 
     @Override
@@ -107,14 +115,14 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         String identifier = ctx.Identifier().getText();
 
         ALangParser.RangeContext rangeCtx = ctx.range();
-        IntegerValue lhs = ValueUtils.checkAsInt(this.visit(rangeCtx.expression(0)));
-        IntegerValue rhs = ValueUtils.checkAsInt(this.visit(rangeCtx.expression(1)));
+        IntegerValue lhs = ValueUtils.asIntegerValue(this.visit(rangeCtx.expression(0)));
+        IntegerValue rhs = ValueUtils.asIntegerValue(this.visit(rangeCtx.expression(1)));
 
         IntegerValue loopCounter = new IntegerValue(lhs.getValue());
         tokenValueMap.put(identifier, loopCounter);
 
         if (lhs.compareTo(rhs) < 0) {
-            for (int i = lhs.getValue(); i <= rhs.getValue(); i++){
+            for (int i = lhs.getValue(); i <= rhs.getValue(); i++) {
                 loopCounter.setValue(i);
                 tokenValueMap.put(identifier, loopCounter);
                 this.visit(ctx.statements());
@@ -137,7 +145,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
     public Value visitIfStatement(ALangParser.IfStatementContext ctx) {
 
         BooleanValue condition = (BooleanValue) this.visit(ctx.expression());
-        if(condition.getValue()){
+        if (condition.getValue()) {
             return this.visitStatements(ctx.statements(0));
         } else {
             return this.visitStatements(ctx.statements(1));
@@ -150,5 +158,23 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         Value rhs = this.visit(ctx.expression(1));
 
         return ValueEvaluator.evaluate(lhs, rhs, Operation.Sub);
+    }
+
+    @Override
+    public Value visitExpressionList(ALangParser.ExpressionListContext ctx) {
+        ListValue value = new ListValue();
+        for (ALangParser.ExpressionContext exp : ctx.expression())
+            value.getValue().add(this.visit(exp));
+        return value;
+    }
+
+    @Override
+    public Value visitIndex(ALangParser.IndexContext ctx) {
+        String identifier = ctx.Identifier().getText();
+
+        ListValue value = ValueUtils.asListValue(tokenValueMap.get(identifier));
+        IntegerValue index = ValueUtils.asIntegerValue(this.visit(ctx.expression()));
+
+        return value.getValue().get(index.getValue());
     }
 }
