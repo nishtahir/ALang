@@ -1,4 +1,4 @@
-#ALang - A language
+ALang - A language
 ===================
 
 A very tiny untyped interpreted language.
@@ -40,7 +40,7 @@ Dependencies:
 
 #### Source
 
-To build `ALang` from source, you need to have [Apache Maven installed](https://maven.apache.org).
+To build `ALang` from source, you need to have [Apache Maven](https://maven.apache.org) installed.
 
 ~~~ sh
 $ git clone https://github.com/nishtahir/ALang.git
