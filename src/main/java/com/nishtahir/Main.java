@@ -10,13 +10,11 @@ import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class Main {
     private static final Logger log = LoggerFactory.getLogger(Main.class);
-
 
     private String[] args;
     private Options options = new Options();
@@ -34,7 +32,6 @@ public class Main {
     public static void main(String[] args) {
         new Main(args).parse();
     }
-
 
     private void parse() {
         CommandLineParser commandLineParser = new DefaultParser();
@@ -55,27 +52,22 @@ public class Main {
             displayVersionInfo();
         }
 
-        List<String> trailingArgs = cmd.getArgList();
-        List<String> files = new ArrayList<>(trailingArgs.size());
-        for (String path : trailingArgs) {
-            File file = FileUtils.getFile(path);
-            if (file.exists()) {
-                files.add(file.getAbsolutePath());
-            } else {
-                log.error(file.getAbsolutePath() + " is not a valid file path.");
-            }
-        }
-
         try {
-            for (String path : files) {
-                ALangLexer lexer = new ALangLexer(new ANTLRFileStream(path));
-                CommonTokenStream tokenStream = new CommonTokenStream(lexer);
-                ALangParser parser = new ALangParser(tokenStream);
-                ParserRuleContext tree = parser.compilationUnit();
-                ALangVisitor visitor = new ALangEvalVisitor();
-                visitor.visit(tree);
+            List<String> trailingArgs = cmd.getArgList();
+            for (String path : trailingArgs) {
+                File file = FileUtils.getFile(path);
+                if (file.exists()) {
+                    ALangLexer lexer = new ALangLexer(new ANTLRFileStream(path));
+                    CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+                    ALangParser parser = new ALangParser(tokenStream);
+                    ParserRuleContext tree = parser.compilationUnit();
+                    ALangVisitor visitor = new ALangEvalVisitor();
+                    visitor.visit(tree);
+                } else {
+                    log.error(file.getAbsolutePath() + " is not a valid file path.");
+                    return;
+                }
             }
-
         } catch (IOException e) {
             log.error("An unexpected error occurred", e);
         }
