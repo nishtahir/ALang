@@ -1,7 +1,7 @@
 ALang - A language
 ===================
 
-A very tiny untyped interpreted language.
+A very tiny dynamically typed interpreted language.
 
 #Features
 ~~~ python
