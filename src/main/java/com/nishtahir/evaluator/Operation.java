@@ -14,8 +14,7 @@ public enum Operation {
     Add {
         @Override
         public Value evaluate(IntegerValue lhs, IntegerValue rhs) {
-            lhs.setValue(lhs.getValue() + rhs.getValue());
-            return lhs;
+            return new IntegerValue(lhs.getValue() + rhs.getValue());
         }
 
         @Override
@@ -25,14 +24,12 @@ public enum Operation {
 
         @Override
         public Value evaluate(StringValue lhs, IntegerValue rhs) {
-            lhs.setValue(lhs.getValue() + rhs.getValue());
-            return lhs;
+            return new StringValue(lhs.getValue() + rhs.getValue());
         }
 
         @Override
         public Value evaluate(StringValue lhs, StringValue rhs) {
-            lhs.setValue(lhs.getValue() + rhs.getValue());
-            return lhs;
+            return new StringValue(lhs.getValue() + rhs.getValue());
         }
     }, Sub {
         @Override

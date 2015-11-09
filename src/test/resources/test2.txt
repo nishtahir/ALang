@@ -1,0 +1,5 @@
+num := 7
+num2 := num + 1
+
+println(num)
+println(num2)
