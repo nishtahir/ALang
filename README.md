@@ -1,9 +1,10 @@
-#ALang
+#ALang - A language
+===================
 
-Tiny interpreted language written Java and ANTLR 4.
+A very tiny untyped interpreted language.
 
 #Features
-```
+~~~ python
 #Alang is a dynamically typed language
     
 #Just give a name and a value and you are
@@ -28,9 +29,29 @@ x := [3, 9, 4, 6, 5, 1, 6, 7, 8, 10, 2]
 #Lists are also dynamically typed
 #so you can have lists like this
 x := ["Hello", 10]
-```
+~~~
 
-# LICENSE
+Getting started
+---------------
+
+Dependencies:
+
+* Java **1.7** or newer
+
+#### Source
+
+To build `ALang` from source, you need to have [Apache Maven installed](https://maven.apache.org).
+
+~~~ sh
+$ git clone https://github.com/nishtahir/ALang.git
+$ cd ALang
+$ mvn compile
+~~~
+
+
+LICENSE
+=======
+
 Copyright 2015 Nish Tahir
 
 Licensed under the Apache License, Version 2.0 (the "License");
