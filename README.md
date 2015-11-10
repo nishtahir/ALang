@@ -1,6 +1,8 @@
 ALang - A language
 ===================
 
+[![Build Status](https://travis-ci.org/nishtahir/ALang.svg?branch=master)](https://travis-ci.org/nishtahir/ALang)
+
 A very tiny dynamically typed interpreted language.
 
 #Features
