@@ -39,8 +39,6 @@ Getting started
 Dependencies:
 
 * Java **1.7** or newer
-* Antlr **4**
-* umlgraph
 
 #### Source
 
@@ -49,7 +47,13 @@ To build `ALang` from source, you need to have [Apache Maven](https://maven.apac
 ~~~ sh
 $ git clone https://github.com/nishtahir/ALang.git
 $ cd ALang
-$ mvn compile
+$ mvn package
+~~~
+
+The output of the build is located in the `target/ALang/bin/ALang` directory. To execute an `ALang` source file,
+~~~ sh
+$ cd target/ALang/bin
+$ ./ALang [path to Alang source]
 ~~~
 
 #### Documentation
@@ -60,8 +64,16 @@ $ mvn javadoc:javadoc
 and then generated documentation will be on following link: ALang/target/site/apidocs/index.html
 
 but if you want UML diagrams to be included in your documentation, you need to have [graphviz](http://www.graphviz.org/) installed, before generating documentation. You can install graphviz via issuing following command: 
+
 ~~~ sh 
-$ sudo aptget install graphviz
+# Using apt
+$ sudo apt-get install graphviz
+
+# Using Homebrew
+$ brew install graphviz
+
+# Using chocolatey
+C:\> choco install graphviz
 ~~~
 
 
