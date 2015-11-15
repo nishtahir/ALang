@@ -2,7 +2,8 @@ package com.nishtahir;
 
 import com.nishtahir.evaluator.Operation;
 import com.nishtahir.evaluator.ValueEvaluator;
-import com.nishtahir.exception.UnknownOperationException;
+import com.nishtahir.exception.UndeclaredVariableException;
+import com.nishtahir.exception.UnknownOperatorException;
 import com.nishtahir.utils.StringUtils;
 import com.nishtahir.utils.ValueUtils;
 import com.nishtahir.value.*;
@@ -13,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Nish on 11/8/15.
+ * Visitor class to evaluate parser rules
  */
 public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
     Logger log = LoggerFactory.getLogger(ALangEvalVisitor.class);
@@ -37,7 +38,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
 
         ListValue value =  ValueUtils.asListValue(tokenValueMap.get(identifier));
         Value expression = this.visit(ctx.expression());
-        return value.setAtIndex(indexNo, expression);
+        return value.setValueAtIndex(indexNo, expression);
     }
 
     @Override
@@ -51,7 +52,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
             case ALangParser.SUB:
                 return ValueEvaluator.evaluate(lhs, rhs, Operation.Sub);
             default:
-                throw new UnknownOperationException("unknown operator: " + ALangParser.tokenNames[ctx.op.getType()]);
+                throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());
         }
     }
 
@@ -72,16 +73,17 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
                 value.setValue(!value.getValue());
                 return value;
             default:
-                throw new UnknownOperationException("unknown operator: " + ALangParser.tokenNames[ctx.op.getType()]);
+                throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());
         }
     }
 
     @Override
     public Value visitLiteralIdentifier(ALangParser.LiteralIdentifierContext ctx) {
         String identifier = ctx.getText();
+
         Value value = tokenValueMap.get(identifier);
         if (value == null) {
-            throw new RuntimeException(identifier + " was not declared");
+            throw new UndeclaredVariableException(identifier, ctx.start.getLine());
         }
         return value;
     }
@@ -174,6 +176,6 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         ListValue value = ValueUtils.asListValue(tokenValueMap.get(identifier));
         IntegerValue index = ValueUtils.asIntegerValue(this.visit(ctx.expression()));
 
-        return value.getAtIndex(index);
+        return value.getValueAtIndex(index);
     }
 }

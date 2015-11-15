@@ -1,10 +1,12 @@
 package com.nishtahir;
 
+import com.nishtahir.error.ALangErrorListener;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +32,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
+        BasicConfigurator.configure();
         new Main(args).parse();
     }
 
@@ -52,17 +55,35 @@ public class Main {
             displayVersionInfo();
         }
 
+        if (cmd.hasOption("v")) {
+            ALangApplication.MODE_VERBOSE = true;
+        }
+
         try {
             List<String> trailingArgs = cmd.getArgList();
             for (String path : trailingArgs) {
                 File file = FileUtils.getFile(path);
                 if (file.exists()) {
                     ALangLexer lexer = new ALangLexer(new ANTLRFileStream(path));
+                    lexer.removeErrorListeners();
+                    lexer.addErrorListener(ALangErrorListener.getInstance());
+
                     CommonTokenStream tokenStream = new CommonTokenStream(lexer);
+
                     ALangParser parser = new ALangParser(tokenStream);
+                    parser.removeErrorListeners();
+                    parser.addErrorListener(ALangErrorListener.getInstance());
+
                     ParserRuleContext tree = parser.compilationUnit();
                     ALangVisitor visitor = new ALangEvalVisitor();
-                    visitor.visit(tree);
+
+                    try {
+                        visitor.visit(tree);
+                    } catch (Exception e) {
+                        if (ALangApplication.MODE_VERBOSE) {
+                            e.printStackTrace();
+                        }
+                    }
                 } else {
                     log.error(file.getAbsolutePath() + " is not a valid file path.");
                     return;
@@ -80,7 +101,7 @@ public class Main {
     }
 
     public void displayVersionInfo() {
-        System.out.println("Alang" + ALangApplication.VERSION + ", " + ALangApplication.COPYRIGHT);
+        System.out.println("Alang " + ALangApplication.VERSION + ", " + ALangApplication.COPYRIGHT);
         System.exit(0);
     }
 

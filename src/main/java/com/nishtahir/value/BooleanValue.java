@@ -1,7 +1,7 @@
 package com.nishtahir.value;
 
 /**
- * Created by Nish on 11/8/15.
+ * Wrapper class to contain {@link Boolean}
  */
 public class BooleanValue extends Value<Boolean> {
 

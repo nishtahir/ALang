@@ -1,22 +1,14 @@
 package com.nishtahir.value;
 
 /**
- *
+ * Wrapper class to contain {@link IntegerValue}
  */
 public class IntegerValue extends Value<Integer> {
 
-    /**
-     *
-     * @param value
-     */
     public IntegerValue(Integer value) {
         this.value = value;
     }
 
-    /**
-     *
-     * @param value
-     */
     public IntegerValue(String value) {
         this.value = Integer.valueOf(value);
     }

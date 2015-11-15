@@ -5,7 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Nish on 11/8/15.
+ * Wrapper class to contain {@link List}
+ * The contained list can hold other {@link Value}
+ *
+ * <b>Indexes in ALang start from 1</b>
  */
 public class ListValue extends Value<List<Value>> {
 
@@ -28,10 +31,22 @@ public class ListValue extends Value<List<Value>> {
         return 0;
     }
 
-    public Value getAtIndex(IntegerValue index){
+    /**
+     *
+     * @param index index in list to return
+     * @return value contained at the specified index
+     */
+    public Value getValueAtIndex(IntegerValue index){
         return this.value.get(index.getValue() - 1);
     }
-    public Value setAtIndex(IntegerValue index, Value value){
+
+    /**
+     *
+     * @param index index to set the given value
+     * @param value value to set at the given index
+     * @return value that was set at the given index
+     */
+    public Value setValueAtIndex(IntegerValue index, Value value){
         return this.value.set(index.getValue() - 1, value);
     }
 

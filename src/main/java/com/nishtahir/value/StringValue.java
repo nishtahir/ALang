@@ -1,7 +1,7 @@
 package com.nishtahir.value;
 
 /**
- * Created by Nish on 11/7/15.
+ * Wrapper class to contain {@link String}
  */
 public class StringValue extends Value<String> {
 

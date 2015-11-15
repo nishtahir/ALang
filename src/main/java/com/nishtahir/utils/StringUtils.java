@@ -1,14 +1,14 @@
 package com.nishtahir.utils;
 
 /**
- * Created by Nish on 11/7/15.
+ * Utility class to help with {@link String}
  */
 public class StringUtils {
 
     /**
      * Trim and remove trailing quotes
-     * @param value
-     * @return
+     * @param value String to clean
+     * @return clean String
      */
     public static String clean(String value){
         value = value.trim();

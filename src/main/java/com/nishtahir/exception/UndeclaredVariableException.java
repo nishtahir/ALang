@@ -1,0 +1,31 @@
+package com.nishtahir.exception;
+
+import com.nishtahir.ALangApplication;
+import org.antlr.v4.runtime.misc.ParseCancellationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+/**
+ * Exception to be thrown when a variable is attempted to be used
+ * but has not been previously declared.
+ */
+public class UndeclaredVariableException extends ParseCancellationException {
+    private static final Logger log;
+
+    static {
+        if (ALangApplication.MODE_VERBOSE) {
+            log = LoggerFactory.getLogger(UndeclaredVariableException.class);
+        } else {
+            log = LoggerFactory.getLogger(UndeclaredVariableException.class.getSimpleName());
+        }
+    }
+
+    /**
+     *
+     * @param identifier offending identifier that was not declared
+     * @param line line number in source where the identifier was found
+     */
+    public UndeclaredVariableException(String identifier, int line) {
+        log.error("Error @ line:" + line + ". Variable '" + identifier + "' has not been declared");
+    }
+}
