@@ -1,0 +1,7 @@
+#
+#
+#
+#
+
+println("Well perhaps he's wondering why someone would shoot a man, before throwing him out of a plane")
+println "Do you feel in charge?"

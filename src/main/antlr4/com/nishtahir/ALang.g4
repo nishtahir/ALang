@@ -36,8 +36,8 @@ range
     ;
 
 printStatement
-    :   'print' '(' parameter ')'       #print
-    |   'println' '(' parameter ')'     #printLine
+    :   'print'   ('(' parameter ')' | parameter )    #print
+    |   'println' ('(' parameter ')' | parameter )    #printLine
     ;
 
 parameter
@@ -81,13 +81,13 @@ index
     ;
 
 literal
-    :   NUMBERS                     #literalNumber
+    :   NumberLiteral               #literalNumber
     |   StringLiteral               #literalString
     |   Identifier                  #literalIdentifier
     ;
 
 Identifier
-    :   LETTERS (LETTERS|NUMBERS)*
+    :   LETTERS (LETTERS|NumberLiteral)*
     ;
 
 StringLiteral
@@ -108,7 +108,7 @@ LETTERS
     :   [a-zA-Z]+
     ;
 
-NUMBERS
+NumberLiteral
     :   [0-9]+
     ;
 
