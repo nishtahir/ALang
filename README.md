@@ -17,7 +17,7 @@ hello := "world"
 y := 42
     
 #how to output things to console
-println("Quick and easy")
+println "Quick and easy"
     
 # We have for loops with ranges
 # 1 ~ 10 means from 1 to 10
