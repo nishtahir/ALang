@@ -59,7 +59,7 @@ $ ./ALang [path to Alang source]
 #### Documentation
 To generate Documentation, after **Source** step, you should issue command: 
 ~~~ sh
-$ mvn javadoc:javadoc
+$ mvn site
 ~~~
 and then generated documentation will be on following link: ALang/target/site/apidocs/index.html
 
