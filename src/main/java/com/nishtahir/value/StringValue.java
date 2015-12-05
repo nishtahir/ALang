@@ -14,6 +14,11 @@ public class StringValue extends Value<String> {
         return value;
     }
 
+    @Override
+    public TYPE getType() {
+        return TYPE.STRING_VALUE;
+    }
+
     public void setValue(String value) {
         this.value = value;
     }

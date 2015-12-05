@@ -48,7 +48,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
 
         switch (ctx.op.getType()) {
             case ALangParser.ADD:
-                return ValueEvaluator.evaluate(lhs, rhs, Operation.Add);
+                return lhs.add(rhs);
             case ALangParser.SUB:
                 return ValueEvaluator.evaluate(lhs, rhs, Operation.Sub);
             default:

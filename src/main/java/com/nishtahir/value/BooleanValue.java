@@ -10,6 +10,11 @@ public class BooleanValue extends Value<Boolean> {
         return value;
     }
 
+    @Override
+    public TYPE getType() {
+        return TYPE.BOOLEAN_VALUE;
+    }
+
     public void setValue(boolean value) {
         this.value = value;
     }

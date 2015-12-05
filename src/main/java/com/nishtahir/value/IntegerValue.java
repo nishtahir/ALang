@@ -3,7 +3,7 @@ package com.nishtahir.value;
 /**
  * Wrapper class to contain {@link IntegerValue}
  */
-public class IntegerValue extends Value<Integer> {
+public class IntegerValue extends Value<Integer>{
 
     public IntegerValue(Integer value) {
         this.value = value;
@@ -17,13 +17,26 @@ public class IntegerValue extends Value<Integer> {
         return value;
     }
 
+    @Override
+    public TYPE getType() {
+        return TYPE.INTEGER_VALUE;
+    }
+
     public void setValue(Integer value) {
         this.value = value;
     }
 
     @Override
     public int compareTo(Value<Integer> o) {
-        int result = this.value.compareTo(o.value);
-        return result;
+        return value.compareTo(o.value);
+    }
+
+    @Override
+    public Value add(Value value){
+        switch (value.getType()){
+            case INTEGER_VALUE:
+                return new IntegerValue(this.getValue() + ((IntegerValue) value).getValue());
+        }
+        return super.add(value);
     }
 }
