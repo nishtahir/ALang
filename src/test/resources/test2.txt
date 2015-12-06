@@ -1,5 +1,5 @@
 num := 7
-num2 := num + 1
+num2 := num - "Hello"
 
 println(num)
 println(num2)

@@ -1,6 +1,7 @@
 package com.nishtahir.exception;
 
 import com.nishtahir.ALangApplication;
+import com.nishtahir.value.Value;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,16 +21,20 @@ public class UnsupportedOperationException extends ParseCancellationException {
     }
 
     public UnsupportedOperationException() {
-        log.error("Unsupported Operation");
+        log.error("The operation is not supported for the type");
     }
+
 
     /**
      *
-     * @param identifier
+     * @param lhs
+     * @param rhs
      * @param line
      */
-    public UnsupportedOperationException(String identifier, int line) {
-        log.error("Error @ line:" + line);
+    public UnsupportedOperationException(Value lhs, Value rhs, int line) {
+        log.error("Error @ line:" + line + ". The type '" + lhs.getClass().getSimpleName()
+                + "' can not be " + " OPERATION " + "to type " + rhs.getClass().getSimpleName());
+
     }
 
 }
