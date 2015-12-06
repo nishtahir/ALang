@@ -22,7 +22,7 @@ public class StringValueTest {
     }
 
     @Test
-    public void testAdd_Integer_ReturnsConcatenatedResult() throws Exception {
+    public void testAdd_WithIntegerValueInput_ReturnsConcatenatedResult() throws Exception {
         StringValue value = new StringValue("Here is the Number ");
         IntegerValue intVal = new IntegerValue(42);
         StringValue result = (StringValue) value.add(intVal);
@@ -30,8 +30,12 @@ public class StringValueTest {
     }
 
     @Test
-    public void testSubtract() throws Exception {
+    public void testSubtract_WithStringValueInput_RemovesMatchingCharacters() throws Exception {
+        StringValue value = new StringValue("Hello World");
+        assertEquals("Hello ", value.subtract(new StringValue("World")).getValue());
 
+        StringValue value2 = new StringValue("World Hello");
+        assertEquals(" Hello", value2.subtract(new StringValue("World")).getValue());
     }
 
     @Test

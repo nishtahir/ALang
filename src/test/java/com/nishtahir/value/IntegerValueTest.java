@@ -36,10 +36,10 @@ public class IntegerValueTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testAdd_String_ThrowsException() throws Exception {
+    public void testAdd_WithString_ThrowsException() throws Exception {
         new IntegerValue(42).add(new StringValue("Hello"));
-        new IntegerValue(42).add(new BooleanValue(true));
-        new IntegerValue(42).add(new ListValue());
+//        new IntegerValue(42).add(new BooleanValue(true));
+//        new IntegerValue(42).add(new ListValue());
     }
 
     @Test
