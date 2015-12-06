@@ -20,6 +20,13 @@ public class IntegerValue extends Value<Integer>{
     }
 
     /**
+     * @param value
+     */
+    public IntegerValue(int value) {
+        this.value = value;
+    }
+
+    /**
      * @param value String representation of a number
      */
     public IntegerValue(String value) {

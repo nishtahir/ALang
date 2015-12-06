@@ -5,6 +5,10 @@ package com.nishtahir.value;
  */
 public class StringValue extends Value<String> {
 
+    public StringValue(){
+        this.value = "";
+    }
+
     public StringValue(String value) {
         this.value = value;
     }
@@ -27,5 +31,40 @@ public class StringValue extends Value<String> {
     @Override
     public int compareTo(Value<String> o) {
         return this.value.compareTo(o.value);
+    }
+
+    @Override
+    public Value add(Value value){
+        switch (value.getType()){
+            case STRING_VALUE:
+                return new StringValue(this.getValue() + ((StringValue) value).getValue());
+            case INTEGER_VALUE:
+                return new StringValue(this.getValue() + ((IntegerValue) value).getValue());
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public Value subtract(Value value){
+        switch (value.getType()){
+            case STRING_VALUE:
+                return new StringValue(this.getValue().replaceAll(((StringValue) value).getValue(), ""));
+            case INTEGER_VALUE:
+//                return new IntegerValue(this.getValue() ((IntegerValue) value).getValue());
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
+
+    @Override
+    public Value multiply(Value value) {
+        switch (value.getType()){
+            case INTEGER_VALUE:
+//                if()
+//                return new IntegerValue(this.getValue() ((IntegerValue) value).getValue());
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }

@@ -33,7 +33,6 @@ public class IntegerValueTest {
         assertEquals(1, new IntegerValue(99).compareTo(value));
         assertEquals(0, new IntegerValue(42).compareTo(value));
         assertEquals(-1, new IntegerValue(10).compareTo(value));
-
     }
 
     @Test(expected = IllegalArgumentException.class)
