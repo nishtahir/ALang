@@ -5,18 +5,26 @@ package com.nishtahir.value;
  */
 public class BooleanValue extends Value<Boolean> {
 
+    public BooleanValue() {
+
+    }
+
+    public BooleanValue(Boolean value) {
+        this.value = value;
+    }
+
     @Override
     public Boolean getValue() {
         return value;
     }
 
+    public void setValue(boolean value) {
+        this.value = value;
+    }
+
     @Override
     public TYPE getType() {
         return TYPE.BOOLEAN_VALUE;
-    }
-
-    public void setValue(boolean value) {
-        this.value = value;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.nishtahir.value;
 
 import com.nishtahir.evaluator.Operable;
+import com.nishtahir.exception.UnsupportedOperationException;
 
 /**
  * Abstract representation of a value in ALang
@@ -8,23 +9,6 @@ import com.nishtahir.evaluator.Operable;
  * @param <T> Type of Object which this value will hold
  */
 public abstract class Value<T> implements Comparable<Value<T>>, Operable{
-
-    /**
-     * List of types natively supported by ALang. Each type
-     */
-    public enum TYPE {
-        INTEGER_VALUE(0), STRING_VALUE(1), BOOLEAN_VALUE(2), LIST_VALUE(3);
-
-        private int value;
-
-        TYPE(final int value){
-            this.value = value;
-        }
-
-        public int getValue(){
-            return value;
-        }
-    }
 
     /**
      * Wrapped value
@@ -57,7 +41,7 @@ public abstract class Value<T> implements Comparable<Value<T>>, Operable{
     }
 
     @Override
-    public Value add(Value value) {
+    public Value add(Value value) throws UnsupportedOperationException {
         throw new UnsupportedOperationException();
     }
 
@@ -104,6 +88,23 @@ public abstract class Value<T> implements Comparable<Value<T>>, Operable{
     @Override
     public Value not(Value value) {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * List of types natively supported by ALang. Each type
+     */
+    public enum TYPE {
+        INTEGER_VALUE(0), STRING_VALUE(1), BOOLEAN_VALUE(2), LIST_VALUE(3);
+
+        private int value;
+
+        TYPE(final int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 
 }
