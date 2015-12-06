@@ -36,6 +36,12 @@ public class ListValue extends Value<List<Value>> {
         return 0;
     }
 
+    @Override
+    public Value add(Value value) {
+        getValue().add(value);
+        return this;
+    }
+
     /**
      *
      * @param index index in list to return

@@ -61,10 +61,15 @@ public class StringValue extends Value<String> {
     public Value multiply(Value value) {
         switch (value.getType()){
             case INTEGER_VALUE:
-//                if()
-//                return new IntegerValue(this.getValue() ((IntegerValue) value).getValue());
+                ListValue l = new ListValue();
+                for(int i = 0; i < ((IntegerValue)value).getValue(); i++){
+                    l.add(new StringValue(this.getValue()));
+                }
+                return l;
             default:
                 throw new IllegalArgumentException();
         }
     }
+
+
 }

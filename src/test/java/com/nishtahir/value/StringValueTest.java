@@ -40,6 +40,22 @@ public class StringValueTest {
 
     @Test
     public void testMultiply() throws Exception {
+        ListValue expected = new ListValue();
+        expected.add(new StringValue("Hello"));
+        expected.add(new StringValue("Hello"));
+        expected.add(new StringValue("Hello"));
 
+        StringValue value = new StringValue("Hello");
+        IntegerValue num = new IntegerValue(3);
+        ListValue result = (ListValue) value.multiply(num);
+
+        assertEquals(expected.getValue().size(), result.getValue().size());
+
+        for(int i = 0; i < expected.getValue().size(); i++){
+            StringValue exp  = (StringValue) expected.getValue().get(i);
+            StringValue act  = (StringValue) result.getValue().get(i);
+
+            assertEquals(exp.getValue(), act.getValue());
+        }
     }
 }

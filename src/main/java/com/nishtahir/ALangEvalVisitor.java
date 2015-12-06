@@ -60,6 +60,23 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
     }
 
     @Override
+    public Value visitExprMultDiv(ALangParser.ExprMultDivContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
+
+        try {
+            switch (ctx.op.getType()) {
+                case ALangParser.MULT:
+                    return lhs.multiply(rhs);
+                case ALangParser.DIV:
+                    return lhs.divide(rhs);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new UnsupportedOperationException(lhs, rhs, ctx.start.getLine());
+        }
+        throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());    }
+
+    @Override
     public Value visitExprBoolean(ALangParser.ExprBooleanContext ctx) {
         Value lhs = this.visit(ctx.expression(0));
         Value rhs = this.visit(ctx.expression(1));
