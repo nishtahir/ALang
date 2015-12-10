@@ -87,9 +87,9 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
             case ALangParser.LESS:
                 return ValueEvaluator.evaluate(lhs, rhs, Operation.Less);
             case ALangParser.EQL:
-                return ValueEvaluator.evaluate(lhs, rhs, Operation.Equal);
+                return lhs.equals(rhs);
             case ALangParser.NEQL:
-                BooleanValue value = (BooleanValue) ValueEvaluator.evaluate(lhs, rhs, Operation.Equal);
+                BooleanValue value = (BooleanValue) lhs.equals(rhs);
                 value.setValue(!value.getValue());
                 return value;
             default:
@@ -179,7 +179,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         Value lhs = this.visit(ctx.expression(0));
         Value rhs = this.visit(ctx.expression(1));
 
-        return ValueEvaluator.evaluate(lhs, rhs, Operation.Sub);
+        return lhs.subtract(rhs);
     }
 
     @Override
