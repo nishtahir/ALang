@@ -1,8 +1,8 @@
 x := [3, 9, 4, 6, 5]
-print("problem: ")
-println(x)
+print "problem: "
+println x
 
-for(i := 1 ~ 100){
+for(i := 1 ~ 5){
     for(j := 1 ~ 4){
         index := x^j
         next := x^1+j
