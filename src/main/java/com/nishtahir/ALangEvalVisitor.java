@@ -4,6 +4,7 @@ import com.nishtahir.evaluator.Operation;
 import com.nishtahir.evaluator.ValueEvaluator;
 import com.nishtahir.exception.UndeclaredVariableException;
 import com.nishtahir.exception.UnknownOperatorException;
+import com.nishtahir.exception.UnsupportedOperationException;
 import com.nishtahir.utils.StringUtils;
 import com.nishtahir.utils.ValueUtils;
 import com.nishtahir.value.*;
@@ -17,12 +18,11 @@ import java.util.Map;
  * Visitor class to evaluate parser rules
  */
 public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
-    Logger log = LoggerFactory.getLogger(ALangEvalVisitor.class);
-
     /**
      * Table containing tokens and their reference values
      */
     private static Map<String, Value> tokenValueMap = new HashMap<>();
+    Logger log = LoggerFactory.getLogger(ALangEvalVisitor.class);
 
     @Override
     public Value visitIdentifierAssignment(ALangParser.IdentifierAssignmentContext ctx) {
@@ -36,7 +36,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         String identifier = ctx.index().Identifier().getText();
         IntegerValue indexNo = ValueUtils.asIntegerValue(this.visit(ctx.index().expression()));
 
-        ListValue value =  ValueUtils.asListValue(tokenValueMap.get(identifier));
+        ListValue value = ValueUtils.asListValue(tokenValueMap.get(identifier));
         Value expression = this.visit(ctx.expression());
         return value.setValueAtIndex(indexNo, expression);
     }
@@ -46,15 +46,35 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         Value lhs = this.visit(ctx.expression(0));
         Value rhs = this.visit(ctx.expression(1));
 
-        switch (ctx.op.getType()) {
-            case ALangParser.ADD:
-                return ValueEvaluator.evaluate(lhs, rhs, Operation.Add);
-            case ALangParser.SUB:
-                return ValueEvaluator.evaluate(lhs, rhs, Operation.Sub);
-            default:
-                throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());
+        try {
+            switch (ctx.op.getType()) {
+                case ALangParser.ADD:
+                    return lhs.add(rhs);
+                case ALangParser.SUB:
+                    return lhs.subtract(rhs);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new UnsupportedOperationException(lhs, rhs, ctx.start.getLine());
         }
+        throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());
     }
+
+    @Override
+    public Value visitExprMultDiv(ALangParser.ExprMultDivContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
+
+        try {
+            switch (ctx.op.getType()) {
+                case ALangParser.MULT:
+                    return lhs.multiply(rhs);
+                case ALangParser.DIV:
+                    return lhs.divide(rhs);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new UnsupportedOperationException(lhs, rhs, ctx.start.getLine());
+        }
+        throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());    }
 
     @Override
     public Value visitExprBoolean(ALangParser.ExprBooleanContext ctx) {
@@ -67,9 +87,9 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
             case ALangParser.LESS:
                 return ValueEvaluator.evaluate(lhs, rhs, Operation.Less);
             case ALangParser.EQL:
-                return ValueEvaluator.evaluate(lhs, rhs, Operation.Equal);
+                return lhs.equals(rhs);
             case ALangParser.NEQL:
-                BooleanValue value = (BooleanValue) ValueEvaluator.evaluate(lhs, rhs, Operation.Equal);
+                BooleanValue value = (BooleanValue) lhs.equals(rhs);
                 value.setValue(!value.getValue());
                 return value;
             default:
@@ -148,8 +168,8 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         if (condition.getValue()) {
             return this.visitStatements(ctx.statements(0));
         } else {
-            if(ctx.statements(1) != null)
-            return this.visitStatements(ctx.statements(1));
+            if (ctx.statements(1) != null)
+                return this.visitStatements(ctx.statements(1));
         }
         return super.visitIfStatement(ctx);
     }
@@ -159,7 +179,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         Value lhs = this.visit(ctx.expression(0));
         Value rhs = this.visit(ctx.expression(1));
 
-        return ValueEvaluator.evaluate(lhs, rhs, Operation.Sub);
+        return lhs.subtract(rhs);
     }
 
     @Override

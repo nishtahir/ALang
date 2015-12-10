@@ -1,5 +1,12 @@
 num := 7
+
 num2 := num + 1
+
+hello := "This is not awesome"
+
+result := hello * 5
 
 println(num)
 println(num2)
+
+println result

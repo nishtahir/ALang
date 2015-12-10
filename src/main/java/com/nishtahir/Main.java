@@ -101,7 +101,7 @@ public class Main {
     }
 
     public void displayVersionInfo() {
-        System.out.println("Alang " + ALangApplication.VERSION + ", " + ALangApplication.COPYRIGHT);
+        System.out.println("ALang " + ALangApplication.VERSION + ", " + ALangApplication.COPYRIGHT);
         System.exit(0);
     }
 

@@ -22,6 +22,11 @@ public class ListValue extends Value<List<Value>> {
     }
 
     @Override
+    public TYPE getType() {
+        return TYPE.LIST_VALUE;
+    }
+
+    @Override
     public int compareTo(Value<List<Value>> o) {
         if (value.size() > o.value.size()) {
             return 1;
@@ -29,6 +34,12 @@ public class ListValue extends Value<List<Value>> {
             return -1;
         }
         return 0;
+    }
+
+    @Override
+    public Value add(Value value) {
+        getValue().add(value);
+        return this;
     }
 
     /**

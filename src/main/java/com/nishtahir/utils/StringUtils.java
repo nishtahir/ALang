@@ -11,6 +11,10 @@ public class StringUtils {
      * @return clean String
      */
     public static String clean(String value){
+        if(value == null){
+            return null;
+        }
+
         value = value.trim();
         return value.substring(1, value.length()-1);
     }
