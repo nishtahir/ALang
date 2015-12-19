@@ -1,6 +1,6 @@
-package com.nishtahir.exception;
+package com.nishtahir.alang.exception;
 
-import com.nishtahir.ALangApplication;
+import com.nishtahir.alang.ALang;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ public class UnknownOperatorException extends ParseCancellationException {
     private static final Logger log;
 
     static {
-        if (ALangApplication.MODE_VERBOSE) {
+        if (ALang.isVerboseOutput()) {
             log = LoggerFactory.getLogger(UnknownOperatorException.class);
         } else {
             log = LoggerFactory.getLogger(UnknownOperatorException.class.getSimpleName());

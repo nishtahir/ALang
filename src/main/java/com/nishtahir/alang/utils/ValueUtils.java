@@ -1,8 +1,8 @@
-package com.nishtahir.utils;
+package com.nishtahir.alang.utils;
 
-import com.nishtahir.value.IntegerValue;
-import com.nishtahir.value.ListValue;
-import com.nishtahir.value.Value;
+import com.nishtahir.alang.value.Value;
+import com.nishtahir.alang.value.IntegerValue;
+import com.nishtahir.alang.value.ListValue;
 
 /**
  * Utility class to help figure out a value's type

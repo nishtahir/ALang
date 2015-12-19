@@ -1,11 +1,9 @@
-package com.nishtahir.evaluator;
+package com.nishtahir.alang.evaluator;
 
-import com.nishtahir.value.BooleanValue;
-import com.nishtahir.value.IntegerValue;
-import com.nishtahir.value.StringValue;
-import com.nishtahir.value.Value;
-
-import java.util.Objects;
+import com.nishtahir.alang.value.BooleanValue;
+import com.nishtahir.alang.value.IntegerValue;
+import com.nishtahir.alang.value.StringValue;
+import com.nishtahir.alang.value.Value;
 
 /**
  * Created by Nish on 11/7/15.

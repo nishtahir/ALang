@@ -1,7 +1,7 @@
-package com.nishtahir.exception;
+package com.nishtahir.alang.exception;
 
-import com.nishtahir.ALangApplication;
-import com.nishtahir.value.Value;
+import com.nishtahir.alang.ALang;
+import com.nishtahir.alang.value.Value;
 import org.antlr.v4.runtime.misc.ParseCancellationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ public class UnsupportedOperationException extends ParseCancellationException {
     private static final Logger log;
 
     static {
-        if (ALangApplication.MODE_VERBOSE) {
+        if (ALang.isVerboseOutput()) {
             log = LoggerFactory.getLogger(UnsupportedOperationException.class);
         } else {
             log = LoggerFactory.getLogger(UnsupportedOperationException.class.getSimpleName());

@@ -1,4 +1,4 @@
-package com.nishtahir.value;
+package com.nishtahir.alang.value;
 
 /**
  * Wrapper class to contain {@link IntegerValue}

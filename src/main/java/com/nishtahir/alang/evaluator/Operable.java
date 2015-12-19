@@ -1,6 +1,6 @@
-package com.nishtahir.evaluator;
+package com.nishtahir.alang.evaluator;
 
-import com.nishtahir.value.Value;
+import com.nishtahir.alang.value.Value;
 
 /**
  *

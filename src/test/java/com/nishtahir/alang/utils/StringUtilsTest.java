@@ -1,4 +1,4 @@
-package com.nishtahir.utils;
+package com.nishtahir.alang.utils;
 
 import org.junit.Test;
 

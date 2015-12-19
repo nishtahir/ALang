@@ -1,8 +1,8 @@
-package com.nishtahir;
+package com.nishtahir.alang;
 
-import com.nishtahir.utils.StringUtilsTest;
-import com.nishtahir.value.IntegerValueTest;
-import com.nishtahir.value.StringValueTest;
+import com.nishtahir.alang.utils.StringUtilsTest;
+import com.nishtahir.alang.value.IntegerValueTest;
+import com.nishtahir.alang.value.StringValueTest;
 import org.junit.runners.Suite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite.SuiteClasses;

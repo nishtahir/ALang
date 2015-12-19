@@ -1,7 +1,7 @@
-package com.nishtahir.value;
+package com.nishtahir.alang.value;
 
-import com.nishtahir.evaluator.Operable;
-import com.nishtahir.exception.UnsupportedOperationException;
+import com.nishtahir.alang.evaluator.Operable;
+import com.nishtahir.alang.exception.UnsupportedOperationException;
 
 /**
  * Abstract representation of a value in ALang

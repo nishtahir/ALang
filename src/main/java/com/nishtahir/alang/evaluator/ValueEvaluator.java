@@ -1,8 +1,8 @@
-package com.nishtahir.evaluator;
+package com.nishtahir.alang.evaluator;
 
-import com.nishtahir.value.IntegerValue;
-import com.nishtahir.value.StringValue;
-import com.nishtahir.value.Value;
+import com.nishtahir.alang.value.StringValue;
+import com.nishtahir.alang.value.Value;
+import com.nishtahir.alang.value.IntegerValue;
 
 /**
  *

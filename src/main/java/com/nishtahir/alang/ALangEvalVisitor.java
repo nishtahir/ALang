@@ -1,13 +1,13 @@
-package com.nishtahir;
+package com.nishtahir.alang;
 
-import com.nishtahir.evaluator.Operation;
-import com.nishtahir.evaluator.ValueEvaluator;
-import com.nishtahir.exception.UndeclaredVariableException;
-import com.nishtahir.exception.UnknownOperatorException;
-import com.nishtahir.exception.UnsupportedOperationException;
-import com.nishtahir.utils.StringUtils;
-import com.nishtahir.utils.ValueUtils;
-import com.nishtahir.value.*;
+import com.nishtahir.alang.evaluator.Operation;
+import com.nishtahir.alang.evaluator.ValueEvaluator;
+import com.nishtahir.alang.exception.UndeclaredVariableException;
+import com.nishtahir.alang.exception.UnknownOperatorException;
+import com.nishtahir.alang.utils.StringUtils;
+import com.nishtahir.alang.utils.ValueUtils;
+import com.nishtahir.alang.value.*;
+import com.nishtahir.alang.exception.UnsupportedOperationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

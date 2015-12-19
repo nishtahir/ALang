@@ -1,4 +1,4 @@
-package com.nishtahir.utils;
+package com.nishtahir.alang.utils;
 
 /**
  * Utility class to help with {@link String}
