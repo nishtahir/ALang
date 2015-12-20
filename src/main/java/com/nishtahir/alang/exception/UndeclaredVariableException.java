@@ -6,26 +6,31 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Exception to be thrown when a variable is attempted to be used
- * but has not been previously declared.
+ * Thrown when a variable that has not been
+ * previously declared is attempted to be used.
  */
 public class UndeclaredVariableException extends ParseCancellationException {
-    private static final Logger log;
+    /**
+     *
+     */
+    private static final Logger LOGGER;
 
     static {
         if (ALang.isVerboseOutput()) {
-            log = LoggerFactory.getLogger(UndeclaredVariableException.class);
+            LOGGER = LoggerFactory.getLogger(UndeclaredVariableException.class);
         } else {
-            log = LoggerFactory.getLogger(UndeclaredVariableException.class.getSimpleName());
+            LOGGER = LoggerFactory.getLogger(
+                    UndeclaredVariableException.class.getSimpleName());
         }
     }
 
     /**
-     *
      * @param identifier offending identifier that was not declared
-     * @param line line number in source where the identifier was found
+     * @param line       line number in source where the identifier was found
      */
-    public UndeclaredVariableException(String identifier, int line) {
-        log.error("Error @ line:" + line + ". Variable '" + identifier + "' has not been declared");
+    public UndeclaredVariableException(final String identifier,
+                                       final int line) {
+        LOGGER.error("Error @ line:" + line + ". Variable '"
+                + identifier + "' has not been declared");
     }
 }

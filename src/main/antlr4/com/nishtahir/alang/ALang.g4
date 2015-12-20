@@ -7,6 +7,7 @@ compilationUnit
 statement
     :   assignment
     |   forLoop
+    |   whileLoop
     |   ifStatement
     |   printStatement
     ;
@@ -30,6 +31,9 @@ forLoop
     : 'for' '('Identifier ':=' range ')' statements
     ;
 
+whileLoop
+    : 'while' '(' expression ')' statements
+    ;
 
 range
     :   expression RNG expression
@@ -50,7 +54,7 @@ expression
     :   expression op=(INCR|DECR)            #exprIncrDecr
     |   expression op=(MULT|DIV) expression    #exprMultDiv
     |   expression op=(ADD|SUB) expression     #exprAddSub
-    |   expression op=('>' | '<' | '=') expression     #exprBoolean
+    |   expression op=(GTR | LESS | EQL) expression     #exprBoolean
     |   '(' expression ')'                  #exprBracket
     |   expressionList                      #exprList
     |   index                               #exprIndex

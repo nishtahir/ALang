@@ -1,13 +1,15 @@
-package com.nishtahir.alang;
+package com.nishtahir.alang.visitor;
 
+import com.nishtahir.alang.ALangBaseVisitor;
+import com.nishtahir.alang.ALangParser;
 import com.nishtahir.alang.evaluator.Operation;
 import com.nishtahir.alang.evaluator.ValueEvaluator;
 import com.nishtahir.alang.exception.UndeclaredVariableException;
 import com.nishtahir.alang.exception.UnknownOperatorException;
+import com.nishtahir.alang.exception.UnsupportedOperationException;
 import com.nishtahir.alang.utils.StringUtils;
 import com.nishtahir.alang.utils.ValueUtils;
 import com.nishtahir.alang.value.*;
-import com.nishtahir.alang.exception.UnsupportedOperationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +57,23 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
             }
         } catch (IllegalArgumentException e) {
             throw new UnsupportedOperationException(lhs, rhs, ctx.start.getLine());
+        }
+        throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());
+    }
+
+    @Override
+    public Value visitExprIncrDecr(ALangParser.ExprIncrDecrContext ctx) {
+        Value lhs = this.visit(ctx.expression());
+
+        try {
+            switch (ctx.op.getType()) {
+                case ALangParser.INCR:
+                    return lhs.add(new IntegerValue(1));
+                case ALangParser.DECR:
+                    return lhs.subtract(new IntegerValue(1));
+            }
+        } catch (IllegalArgumentException e) {
+//            throw new UnsupportedOperationException(lhs, ctx.start.getLine());
         }
         throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());
     }
@@ -198,4 +217,17 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
 
         return value.getValueAtIndex(index);
     }
+
+    @Override
+    public Value visitWhileLoop(ALangParser.WhileLoopContext ctx) {
+        while (((BooleanValue) this.visit(ctx.expression())).getValue()){
+            this.visit(ctx.statements());
+        }
+        return null;
+    }
+
+    public static Map<String, Value> getTokenValueMap() {
+        return tokenValueMap;
+    }
+
 }

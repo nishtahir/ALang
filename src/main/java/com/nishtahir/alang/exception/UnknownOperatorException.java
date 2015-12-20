@@ -6,17 +6,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Exception to be thrown when an operation attempts to use an operand that is not
- * supported.
+ * Thrown when an operation attempts
+ * to use an operand that is not supported.
  */
 public class UnknownOperatorException extends ParseCancellationException {
-    private static final Logger log;
+
+    /**
+     * Class logger. Initialized with name based on verbose setting.
+     */
+    private static final Logger LOGGER;
 
     static {
         if (ALang.isVerboseOutput()) {
-            log = LoggerFactory.getLogger(UnknownOperatorException.class);
+            LOGGER = LoggerFactory.getLogger(UnknownOperatorException.class);
         } else {
-            log = LoggerFactory.getLogger(UnknownOperatorException.class.getSimpleName());
+            LOGGER = LoggerFactory.getLogger(
+                    UnknownOperatorException.class.getSimpleName());
         }
     }
 
@@ -24,7 +29,8 @@ public class UnknownOperatorException extends ParseCancellationException {
      * @param identifier offending operator
      * @param line line number in source where the operator was found
      */
-    public UnknownOperatorException(String identifier, int line) {
-        log.error("Error @ line:" + line + ". Illegal operator '" + identifier + "'.");
+    public UnknownOperatorException(final String identifier, final int line) {
+        LOGGER.error("Error @ line:" + line
+                + ". Illegal operator '" + identifier + "'.");
     }
 }

@@ -1,16 +1,11 @@
 package com.nishtahir.alang;
 
 import com.nishtahir.alang.error.ALangErrorListener;
+import com.nishtahir.alang.visitor.ALangPicoVisitor;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.BasicConfigurator;
 import org.slf4j.Logger;
@@ -112,8 +107,8 @@ public class ALang {
 
     /**
      * @param args command line arguments
-     * @throws ParseException {@link ParseException}
      * @return List of files to parse
+     * @throws ParseException {@link ParseException}
      */
     private List<String> parseCommandLineArguments(final String[] args)
             throws ParseException {
@@ -166,7 +161,7 @@ public class ALang {
             parser.addErrorListener(ALangErrorListener.getInstance());
 
             ParserRuleContext tree = parser.compilationUnit();
-            ALangVisitor visitor = new ALangEvalVisitor();
+            ALangVisitor visitor = new ALangPicoVisitor();
 
             try {
                 visitor.visit(tree);
