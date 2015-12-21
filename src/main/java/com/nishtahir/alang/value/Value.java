@@ -6,9 +6,10 @@ import com.nishtahir.alang.exception.UnsupportedOperationException;
 /**
  * Abstract representation of a value in ALang
  * A value is simply a wrapper around an Object type
+ *
  * @param <T> Type of Object which this value will hold
  */
-public abstract class Value<T> implements Comparable<Value<T>>, Operable{
+public abstract class Value<T> implements Comparable<Value<T>>, Operable {
 
     /**
      * Wrapped value
@@ -87,6 +88,16 @@ public abstract class Value<T> implements Comparable<Value<T>>, Operable{
 
     @Override
     public Value not(Value value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Value findMaximum(Value value) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Value findMinimum(Value value) {
         throw new UnsupportedOperationException();
     }
 

@@ -93,7 +93,26 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         } catch (IllegalArgumentException e) {
             throw new UnsupportedOperationException(lhs, rhs, ctx.start.getLine());
         }
-        throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());    }
+        throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());
+    }
+
+    @Override
+    public Value visitExprMinMax(ALangParser.ExprMinMaxContext ctx) {
+        Value lhs = this.visit(ctx.expression(0));
+        Value rhs = this.visit(ctx.expression(1));
+
+        try {
+            switch (ctx.op.getType()) {
+                case ALangParser.MIN:
+                    return lhs.findMinimum(rhs);
+                case ALangParser.MAX:
+                    return lhs.findMaximum(rhs);
+            }
+        } catch (IllegalArgumentException e) {
+            throw new UnsupportedOperationException(lhs, rhs, ctx.start.getLine());
+        }
+        throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());
+    }
 
     @Override
     public Value visitExprBoolean(ALangParser.ExprBooleanContext ctx) {
@@ -220,7 +239,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
 
     @Override
     public Value visitWhileLoop(ALangParser.WhileLoopContext ctx) {
-        while (((BooleanValue) this.visit(ctx.expression())).getValue()){
+        while (((BooleanValue) this.visit(ctx.expression())).getValue()) {
             this.visit(ctx.statements());
         }
         return null;
