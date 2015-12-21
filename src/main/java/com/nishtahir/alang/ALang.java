@@ -1,6 +1,7 @@
 package com.nishtahir.alang;
 
 import com.nishtahir.alang.error.ALangErrorListener;
+import com.nishtahir.alang.visitor.ALangEvalVisitor;
 import com.nishtahir.alang.visitor.ALangPicoVisitor;
 import org.antlr.v4.runtime.ANTLRFileStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -58,6 +59,14 @@ public class ALang {
     private Options commandLineOptions;
 
     /**
+     * Visitor used to parse the given files. Defaults to
+     * the interpreter, but can be changed using comman
+     * line flags.
+     */
+    private ALangVisitor visitor = new ALangEvalVisitor();
+
+
+    /**
      * @param args command line arguments
      */
     public ALang(final String[] args) {
@@ -69,6 +78,10 @@ public class ALang {
                 new Option("version", false, "more info about " + APP_NAME));
         commandLineOptions.addOption(
                 new Option("v", "verbose", false, "show more information"));
+
+        commandLineOptions.addOption(
+                new Option("c", "compiler", true, "compiler option [pico]"));
+
 
         try {
             List<String> filesToParse = parseCommandLineArguments(args);
@@ -129,6 +142,13 @@ public class ALang {
             setVerboseOutput(true);
         }
 
+        if (commandLine.hasOption("c")) {
+            switch (commandLine.getOptionValue("c")) {
+                case "pico":
+                    visitor = new ALangPicoVisitor();
+            }
+        }
+
         return commandLine.getArgList();
 
     }
@@ -161,7 +181,6 @@ public class ALang {
             parser.addErrorListener(ALangErrorListener.getInstance());
 
             ParserRuleContext tree = parser.compilationUnit();
-            ALangVisitor visitor = new ALangPicoVisitor();
 
             try {
                 visitor.visit(tree);
