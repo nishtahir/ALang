@@ -3,7 +3,7 @@ package com.nishtahir.alang.value;
 /**
  * Wrapper class to contain {@link IntegerValue}
  */
-public class IntegerValue extends Value<Integer>{
+public class IntegerValue extends Value<Integer> {
 
     /**
      * Default value is 0 for Integer values
@@ -58,8 +58,8 @@ public class IntegerValue extends Value<Integer>{
     }
 
     @Override
-    public Value add(Value value){
-        switch (value.getType()){
+    public Value add(Value value) {
+        switch (value.getType()) {
             case INTEGER_VALUE:
                 return new IntegerValue(this.getValue() + ((IntegerValue) value).getValue());
             default:
@@ -85,5 +85,37 @@ public class IntegerValue extends Value<Integer>{
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    @Override
+    public Value findMaximum(Value value) {
+        switch (value.getType()) {
+            case INTEGER_VALUE:
+                if (this.getValue() > ((IntegerValue) value).getValue())
+                    return new IntegerValue(this.getValue());
+                else
+                    return new IntegerValue(((IntegerValue) value).getValue());
+            default:
+                throw new IllegalArgumentException();
+
+        }
+
+    }
+    
+    @Override
+
+
+    public Value findMinimum(Value value) {
+        switch (value.getType()) {
+            case INTEGER_VALUE:
+                if (this.getValue() < ((IntegerValue) value).getValue())
+                    return new IntegerValue(this.getValue());
+                else
+                    return new IntegerValue(((IntegerValue) value).getValue());
+            default:
+                throw new IllegalArgumentException();
+
+        }
+
     }
 }

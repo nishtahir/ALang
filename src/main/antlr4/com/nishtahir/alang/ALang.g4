@@ -55,6 +55,7 @@ expression
     |   expression op=(MULT|DIV) expression    #exprMultDiv
     |   expression op=(ADD|SUB) expression     #exprAddSub
     |   expression op=(GTR | LESS | EQL) expression     #exprBoolean
+    |   op=(MIN|MAX)  expression expression             #exprMinMax
     |   '(' expression ')'                  #exprBracket
     |   expressionList                      #exprList
     |   index                               #exprIndex
@@ -75,6 +76,8 @@ EQL     :   '=' ;
 NEQL    :   '!=';
 
 RNG     :   '~' ;
+MIN     :   'min'|'MIN' ;
+MAX     :   'max'|'MAX' ;
 
 expressionList
     :   '[' expression (',' expression)* ']'
