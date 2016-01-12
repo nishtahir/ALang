@@ -54,7 +54,7 @@ expression
     :   expression op=(INCR|DECR)            #exprIncrDecr
     |   expression op=(MULT|DIV) expression    #exprMultDiv
     |   expression op=(ADD|SUB) expression     #exprAddSub
-    |   expression op=(GTR | LESS | EQL) expression     #exprBoolean
+    |   expression op=(GTR | GTRE | LESS | LESSE | EQL | NEQL) expression     #exprBoolean
     |   op=(MIN|MAX)  expression expression             #exprMinMax
     |   '(' expression ')'                  #exprBracket
     |   expressionList                      #exprList
@@ -71,7 +71,9 @@ ADD     :   '+' ;
 SUB     :   '-' ;
 
 GTR     :   '>' ;
+GTRE    :   '>=';
 LESS    :   '<' ;
+LESSE   :   '<=';
 EQL     :   '=' ;
 NEQL    :   '!=';
 
