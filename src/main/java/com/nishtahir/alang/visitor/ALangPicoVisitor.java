@@ -15,15 +15,17 @@ import java.util.UUID;
  * Used to output Pico cpu compatible assembly code.
  */
 public class ALangPicoVisitor extends ALangEvalVisitor {
+    String beginWhileTag; // this should not be here. need better soln
+    String endWhileTag;
 
     /**
      * Max available allocatable memory.
      */
-    private static final int MAX_ADDR = 16;
+    private static final int MAX_ADDR = 128;
 
     /**
      * Map used to allocate memory on the CPU. We aren't sure of the
-     * actuall size that can be allocated
+     * On the CPU the size is 0-255 -> 256
      */
     private static List<String> memoryList = new ArrayList<>(MAX_ADDR);
 
@@ -70,9 +72,11 @@ public class ALangPicoVisitor extends ALangEvalVisitor {
                 memoryList.add(id);
                 System.out.println("$" + id + " " + "0x" + memPointer);
                 memPointer++;
-                System.out.println("LOADN " + value);
+//                System.out.println("LOADN " + value);
                 System.out.println("STORE " + "$" + id + "\n\n");
             }
+        } else {
+            System.out.println("STORE " + "$" + id + "\n\n");
         }
 
         return null;
@@ -83,11 +87,23 @@ public class ALangPicoVisitor extends ALangEvalVisitor {
         String[] ids = ctx.getText().split(ctx.op.getText());
         System.out.println("LOADV $" + ids[0]);
 
+        System.out.println("SUB " + ids[1]);
         switch (ctx.op.getType()) {
             case ALangParser.GTR:
                 break;
+
             case ALangParser.LESS:
-                System.out.println("BINE " + ids[1]);
+
+                break;
+            case ALangParser.EQL:
+                System.out.println("INV");
+                System.out.print("BIZ ");
+//                System.out.println("JMP " + endWhileTag);
+                break;
+            case ALangParser.NEQL:
+                System.out.print("BIZ ");
+//                System.out.println("JMP " + endWhileTag);
+
                 break;
         }
         return null;
@@ -95,13 +111,20 @@ public class ALangPicoVisitor extends ALangEvalVisitor {
 
     @Override
     public Value visitWhileLoop(ALangParser.WhileLoopContext ctx) {
-        String tag = UUID.randomUUID().toString().substring(0, 8);
-        System.out.println(tag + ":");
+        beginWhileTag = UUID.randomUUID().toString().substring(0, 8);
+        endWhileTag = UUID.randomUUID().toString().substring(0, 8);
 
+        System.out.println(beginWhileTag + ":");
+
+        //Do all the stuff that my boolean expression should do
         this.visit(ctx.expression());
-        this.visit(ctx.statements());
+        System.out.println(endWhileTag);
 
-        System.out.println("JMP " + tag);
+        //Do all the stuff that statements should do
+        this.visit(ctx.statements());
+        System.out.println("JMP " + beginWhileTag);
+        //if(neqlFlag==1)
+        System.out.println(endWhileTag + ":");
         return null;
     }
 
@@ -138,6 +161,7 @@ public class ALangPicoVisitor extends ALangEvalVisitor {
         this.visit(ctx.expression(0));
         System.out.println("SETR");
         this.visit(ctx.expression(1));
+        //System.out.println("LOADA"); // this is :D
         System.out.println("MUXR");
 
         switch (ctx.op.getType()) {
@@ -150,7 +174,7 @@ public class ALangPicoVisitor extends ALangEvalVisitor {
 
         }
         System.out.println("MUXOP");
-        System.out.println("STORE $" + ids[0]);
+        //System.out.println("STORE $" + ids[0]); testing
         return null;
     }
 
@@ -170,6 +194,11 @@ public class ALangPicoVisitor extends ALangEvalVisitor {
         return null;
     }
 
+    @Override
+    public Value visitLiteralNumber(ALangParser.LiteralNumberContext ctx) {
+        System.out.println("LOADN " + ctx.NumberLiteral().getText());
+        return null;
+    }
 
     private int findInMemoryList(String val){
         for(int i = 0; i < memoryList.size(); i++){
@@ -181,3 +210,4 @@ public class ALangPicoVisitor extends ALangEvalVisitor {
     }
 
 }
+
