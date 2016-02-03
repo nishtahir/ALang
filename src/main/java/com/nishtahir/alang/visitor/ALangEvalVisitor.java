@@ -9,7 +9,11 @@ import com.nishtahir.alang.exception.UnknownOperatorException;
 import com.nishtahir.alang.exception.UnsupportedOperationException;
 import com.nishtahir.alang.utils.StringUtils;
 import com.nishtahir.alang.utils.ValueUtils;
-import com.nishtahir.alang.value.*;
+import com.nishtahir.alang.value.BooleanValue;
+import com.nishtahir.alang.value.IntegerValue;
+import com.nishtahir.alang.value.ListValue;
+import com.nishtahir.alang.value.StringValue;
+import com.nishtahir.alang.value.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,17 +21,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Visitor class to evaluate parser rules
+ * Visitor class to evaluate parser rules.
  */
 public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
     /**
-     * Table containing tokens and their reference values
+     * Table containing tokens and their reference values.
      */
     private static Map<String, Value> tokenValueMap = new HashMap<>();
-    Logger log = LoggerFactory.getLogger(ALangEvalVisitor.class);
+
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ALangEvalVisitor.class);
 
     @Override
-    public Value visitIdentifierAssignment(ALangParser.IdentifierAssignmentContext ctx) {
+    public Value visitIdentifierAssignment(final ALangParser.IdentifierAssignmentContext ctx) {
         String id = ctx.Identifier().getText();
         Value value = this.visit(ctx.expression());
         return tokenValueMap.put(id, value);
@@ -44,7 +50,7 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
     }
 
     @Override
-    public Value visitExprAddSub(ALangParser.ExprAddSubContext ctx) {
+    public Value visitExprAddSub(final ALangParser.ExprAddSubContext ctx) {
         Value lhs = this.visit(ctx.expression(0));
         Value rhs = this.visit(ctx.expression(1));
 
@@ -54,11 +60,12 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
                     return lhs.add(rhs);
                 case ALangParser.SUB:
                     return lhs.subtract(rhs);
+                default:
+                    throw new UnknownOperatorException(ctx.op.getText(), ctx.getStart().getLine());
             }
         } catch (IllegalArgumentException e) {
             throw new UnsupportedOperationException(lhs, rhs, ctx.start.getLine());
         }
-        throw new UnknownOperatorException(ALangParser.tokenNames[ctx.op.getType()], ctx.start.getLine());
     }
 
     @Override
@@ -245,6 +252,10 @@ public class ALangEvalVisitor extends ALangBaseVisitor<Value> {
         return null;
     }
 
+    /**
+     *
+     * @return
+     */
     public static Map<String, Value> getTokenValueMap() {
         return tokenValueMap;
     }

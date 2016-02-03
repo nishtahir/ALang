@@ -1,0 +1,21 @@
+/**
+*   Returns the max of two numbers
+*/
+max(number1, number2) : result := 0 {
+    if(number1 > number2){
+        result := number1
+    } else {
+        result := number2
+    }
+}
+
+/**
+*   Returns the min of two numbers
+*/
+min(number1, number2) : result := 0 {
+    if(number1 < number2){
+        result := number1
+    } else {
+        result := number2
+    }
+}

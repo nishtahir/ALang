@@ -1,7 +1,31 @@
 grammar ALang;
 
 compilationUnit
-    :   statements EOF
+    :   annotationDeclaration? statements EOF
+    ;
+
+annotationDeclaration
+    :   '@' (importDeclaration)
+    ;
+
+importDeclaration
+    :   'import' importReferenceList
+    ;
+
+importReferenceList
+    :   importReference ( ',' importReference)*
+    ;
+
+importReference
+    :   Identifier
+    ;
+
+block
+    : '{' blockStatements* '}'
+    ;
+
+blockStatements
+    :   statement
     ;
 
 statement
@@ -10,6 +34,7 @@ statement
     |   whileLoop
     |   ifStatement
     |   printStatement
+    |   function
     ;
 
 statements
@@ -50,6 +75,10 @@ parameter
     | Identifier
     ;
 
+parameterList
+    : '(' parameter (',' parameter)* ')'
+    ;
+
 expression
     :   expression op=(INCR|DECR)            #exprIncrDecr
     |   expression op=(MULT|DIV) expression    #exprMultDiv
@@ -61,6 +90,14 @@ expression
     |   index                               #exprIndex
     |   literal                             #literalExpression
     |   Identifier                          #identifierExpression
+    ;
+
+documentation
+    :   DOC_COMMENT_COMMENT
+    ;
+
+function
+    : documentation? Identifier parameterList ':' Identifier block
     ;
 
 INCR    :   '++';
@@ -113,17 +150,42 @@ StringCharacter
     :   ~["\\]
     ;
 
+fragment
+SignedInteger
+    :   Sign? NumberLiteral
+    ;
+
+fragment
+Sign
+    :   [+-]
+    ;
+
 LETTERS
-    :   [a-zA-Z]+
+    :   [a-zA-Z0-9$_]+
     ;
 
 NumberLiteral
     :   [0-9]+
     ;
 
+BooleanLiteral
+    :   'true'
+    |   'false'
+    ;
+
 WS  :  [ \n\r\t\u000C]+ -> skip
     ;
 
-LINE_COMMENT
-    :  '#'  ~[\r\n]* -> skip
+SINGLE_LINE_COMMENT
+    :  '//'  ~[\r\n]* -> skip
     ;
+
+DOC_COMMENT_COMMENT
+    :   '/**' .*? '*/'
+    ;
+
+MULTI_LINE_COMMENT
+    :   '/*' .*? '*/' -> skip
+    ;
+
+
