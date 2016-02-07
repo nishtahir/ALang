@@ -47,7 +47,7 @@ To build `ALang` from source, you need to have [Apache Maven](https://maven.apac
 ~~~ sh
 $ git clone https://github.com/nishtahir/ALang.git
 $ cd ALang
-$ mvn package
+$ ./mvnw package
 ~~~
 
 The output of the build is located in the `target/ALang/bin/ALang` directory. To execute an `ALang` source file,
@@ -59,7 +59,7 @@ $ ./ALang [path to Alang source]
 #### Documentation
 To generate Documentation, after **Source** step, you should issue command: 
 ~~~ sh
-$ mvn site
+$ ./mvnw site
 ~~~
 and then generated documentation will be on following link: ALang/target/site/apidocs/index.html
 
